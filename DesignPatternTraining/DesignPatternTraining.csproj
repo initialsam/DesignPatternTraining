@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="01_State\IFakeService.cs" />
+    <Compile Include="01_State\SituationB_State.cs" />
+    <Compile Include="01_State\SituationB.cs" />
     <Compile Include="01_State\SituationA_StateLite.cs" />
     <Compile Include="01_State\SituationA_State.cs" />
     <Compile Include="01_State\SituationA.cs" />
