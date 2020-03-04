@@ -11,13 +11,13 @@ namespace DesignPatternTraining
     {
         static void Main(string[] args)
         {
-            var a = new SituationC_COR();
+            var a = new SituationC_COR2();
             var b = a.IsVIP(new CorUser
             {
                 Age = 20,
                 Height = 190,
                 Weight = 80,
-                Identity = "F123456789"
+                Identity = "A123456789"
             });
         }
     }
