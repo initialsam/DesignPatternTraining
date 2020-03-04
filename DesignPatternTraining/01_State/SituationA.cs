@@ -19,11 +19,12 @@ namespace DesignPatternTraining._01_State
         {
             var flow = FakeService.GetFlow();
             //第一次不處理
-            if (!IsFirst) 
+            if (IsFirst) 
             {
-                Submit(flow);
+                IsFirst = false;
+                return;
             }
-            IsFirst = false;
+            Submit(flow);
         }
     }
 
