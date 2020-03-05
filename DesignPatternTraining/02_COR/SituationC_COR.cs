@@ -20,13 +20,34 @@ namespace DesignPatternTraining._02_COR
     {
         public static VIPChecker GetCheckers()
         {
-            return new IdentityChecker(new AgeChecker(new HeightWeightChecker((null))));
+            //這樣寫的好處 直覺先檢查 Identity -> Age -> HeightWeight
+            //缺點 很多時 程式碼會很長很多括號
+            //return new IdentityChecker(new AgeChecker(new HeightWeightChecker(null)));
+
+            //這樣寫的好處 程式碼都會比較短 變成很多行 比較好看
+            //缺點 檢查順序 是由下到上 不小心會搞混
+            //VIPChecker heightWeightChecker = new HeightWeightChecker(null);
+            //VIPChecker ageChecker = new AgeChecker(heightWeightChecker);
+            //return new IdentityChecker(ageChecker);
+
+            //不用建構子 建立SetNext去指定下一個VIPChecker
+            VIPChecker identityChecker = new IdentityChecker();
+            identityChecker.SetNext(new AgeChecker())
+                           .SetNext(new HeightWeightChecker());
+            
+            return identityChecker;
         }
     }
 
     public abstract class VIPChecker
     {
-        protected VIPChecker _successor;
+        protected VIPChecker _checker;
+        public VIPChecker SetNext(VIPChecker checker)
+        {
+            _checker = checker;
+            return _checker;
+        }
+
         protected abstract bool InternalCheck(CorUser user);
         public bool Check(CorUser user)
         {
@@ -36,28 +57,21 @@ namespace DesignPatternTraining._02_COR
                 return false;
             }
 
-            if (_successor == null)
+            if (_checker == null)
             {
                 //若沒有後繼者,表示檢查結束
                 return true;
             }
 
             //有後繼者則繼續往下處理
-            return _successor.Check(user);
+            return _checker.Check(user);
         }
 
-        protected VIPChecker(VIPChecker successor)
-        {
-            _successor = successor;
-        }
+       
     }
 
     public class IdentityChecker : VIPChecker
     {
-        public IdentityChecker(VIPChecker successor) : base(successor)
-        {
-        }
-
         protected override bool InternalCheck(CorUser user)
         {
             return !user.Identity.StartsWith("A");
@@ -66,10 +80,6 @@ namespace DesignPatternTraining._02_COR
 
     public class AgeChecker : VIPChecker
     {
-        public AgeChecker(VIPChecker successor) : base(successor)
-        {
-        }
-
         protected override bool InternalCheck(CorUser user)
         {
             return user.Age < 18;
@@ -78,10 +88,6 @@ namespace DesignPatternTraining._02_COR
 
     public class HeightWeightChecker : VIPChecker
     {
-        public HeightWeightChecker(VIPChecker successor) : base(successor)
-        {
-        }
-
         protected override bool InternalCheck(CorUser user)
         {
             return user.Height < 180 && user.Weight > 90;
