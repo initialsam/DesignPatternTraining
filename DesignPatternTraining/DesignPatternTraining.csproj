@@ -43,6 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01_State\Bank\Account.cs" />
+    <Compile Include="01_State\Bank\Account_State.cs" />
+    <Compile Include="01_State\Bank\Active.cs" />
+    <Compile Include="01_State\Bank\Closed.cs" />
+    <Compile Include="01_State\Bank\Frozen.cs" />
+    <Compile Include="01_State\Bank\IAccountState.cs" />
+    <Compile Include="01_State\Bank\NotVerified.cs" />
     <Compile Include="01_State\IFakeService.cs" />
     <Compile Include="01_State\SituationB_State.cs" />
     <Compile Include="01_State\SituationB.cs" />
